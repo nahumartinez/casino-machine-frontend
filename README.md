@@ -1,6 +1,6 @@
-# Maquina Tragamonedas
+# SpinNWin Slots
 
-💡 This documentation contains all the details for the frontend of the Maquina Tragaponedas React App
+💡 This documentation contains all the details for the frontend of the SpinNWin Slots React App
 
 ## Introduction
 
