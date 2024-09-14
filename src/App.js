@@ -1,23 +1,52 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
 
 function App() {
+  const [symbols, setSymbols] = useState(['?', '?', '?']);
+  const [isWinner, setIsWinner] = useState(false);
+  const [isLeverPulled, setIsLeverPulled] = useState(false);
+
+  const handleSpin = async () => {
+    setIsLeverPulled(true); 
+
+    setTimeout(async () => {
+      const response = await fetch('http://localhost:5000/spin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      });
+
+      const result = await response.json();
+      setSymbols(result.symbols);
+      setIsWinner(result.isWinner);
+
+      setIsLeverPulled(false); 
+    }, 1000);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div className="machine-container">
+      <div className="machine">
+        <div className="symbols">
+          {symbols.map((symbol, index) => (
+            <div key={index} className="symbol">
+              {symbol}
+            </div>
+          ))}
+        </div>
+
+        <div
+          className={`lever ${isLeverPulled ? 'pulled' : ''}`} 
+          onClick={handleSpin} 
         >
-          Learn React
-        </a>
-      </header>
+          <div className="lever-handle"></div>
+        </div>
+
+        {symbols[0] !== '?' && (
+          <div className={`message ${isWinner ? '' : 'lose'}`}>
+            {isWinner ? '¡Ganaste!' : '¡Perdiste!'}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
