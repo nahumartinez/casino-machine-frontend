@@ -25,4 +25,4 @@ The project was deployed on Netlify
 
 ## Live version
 
-
+https://spinnwin.netlify.app/
